@@ -1,0 +1,26 @@
+[project]
+name = "adb-tui"
+version = "0.1.0"
+requires-python = ">=3.9"
+dependencies = [
+    "textual>=0.80.0",
+]
+
+[project.scripts]
+adb-tui = "adb_tui.__main__:main"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = ["ruff>=0.4"]
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
