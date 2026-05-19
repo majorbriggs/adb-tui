@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate README screenshots using mocked ADB data."""
+
 from __future__ import annotations
 
 import asyncio
@@ -49,7 +50,7 @@ async def shot_package_input() -> None:
     with patch("adb_tui.adb.get_devices", return_value=SINGLE_DEVICE):
         app = AdbTuiApp()
         async with app.run_test(headless=True, size=SIZE) as pilot:
-            await pilot.pause(1.0)   # auto-navigated to ActionScreen
+            await pilot.pause(1.0)  # auto-navigated to ActionScreen
             await pilot.press("enter")  # select Run App
             await pilot.pause(0.3)
             save(app, "03_package_input.svg")
@@ -63,13 +64,13 @@ async def shot_package_select() -> None:
     ):
         app = AdbTuiApp()
         async with app.run_test(headless=True, size=SIZE) as pilot:
-            await pilot.pause(1.0)      # auto-navigated to ActionScreen
+            await pilot.pause(1.0)  # auto-navigated to ActionScreen
             await pilot.press("enter")  # select Run App -> PackageInputScreen
             await pilot.pause(0.3)
             for ch in "spotify":
                 await pilot.press(ch)
             await pilot.press("enter")  # submit search
-            await pilot.pause(1.0)      # wait for background thread
+            await pilot.pause(1.0)  # wait for background thread
             save(app, "04_package_select.svg")
 
 

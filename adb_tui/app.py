@@ -24,6 +24,7 @@ from .adb import Action
 # Typed ListItem subclasses — carry domain data alongside the visible label
 # ---------------------------------------------------------------------------
 
+
 class DeviceItem(ListItem):
     def __init__(self, device_id: str) -> None:
         super().__init__(Label(adb.format_device(device_id)))
@@ -45,6 +46,7 @@ class PackageItem(ListItem):
 # ---------------------------------------------------------------------------
 # Confirmation modal
 # ---------------------------------------------------------------------------
+
 
 class ConfirmScreen(ModalScreen[bool]):
     BINDINGS = [Binding("escape", "dismiss_false", "Cancel")]
@@ -70,6 +72,7 @@ class ConfirmScreen(ModalScreen[bool]):
 # ---------------------------------------------------------------------------
 # Mixin: run an ADB action in a background thread, then pop screens
 # ---------------------------------------------------------------------------
+
 
 class ActionRunnerMixin:
     """Mixin for Screen subclasses. Runs ADB actions off the main thread."""
@@ -99,9 +102,11 @@ class ActionRunnerMixin:
         self, action: Action, device: str, package: str, pop_count: int
     ) -> None:
         if action == Action.UNINSTALL:
+
             def on_confirm(confirmed: bool) -> None:
                 if confirmed:
                     self.run_action_in_thread(action, device, package, pop_count)
+
             self.app.push_screen(ConfirmScreen(f"Uninstall '{package}'?"), on_confirm)
         else:
             self.run_action_in_thread(action, device, package, pop_count)
@@ -110,6 +115,7 @@ class ActionRunnerMixin:
 # ---------------------------------------------------------------------------
 # Screen: device list
 # ---------------------------------------------------------------------------
+
 
 class DeviceScreen(Screen):
     BINDINGS = [
@@ -172,6 +178,7 @@ class DeviceScreen(Screen):
 # Screen: action menu
 # ---------------------------------------------------------------------------
 
+
 class ActionScreen(Screen):
     BINDINGS = [Binding("escape", "app.pop_screen", "Back")]
 
@@ -195,6 +202,7 @@ class ActionScreen(Screen):
 # ---------------------------------------------------------------------------
 # Screen: package name input
 # ---------------------------------------------------------------------------
+
 
 class PackageInputScreen(ActionRunnerMixin, Screen):
     BINDINGS = [Binding("escape", "app.pop_screen", "Back")]
@@ -244,6 +252,7 @@ class PackageInputScreen(ActionRunnerMixin, Screen):
 # Screen: package selection (when multiple packages match)
 # ---------------------------------------------------------------------------
 
+
 class PackageSelectScreen(ActionRunnerMixin, Screen):
     BINDINGS = [Binding("escape", "app.pop_screen", "Back")]
 
@@ -271,6 +280,7 @@ class PackageSelectScreen(ActionRunnerMixin, Screen):
 # ---------------------------------------------------------------------------
 # Application entry point
 # ---------------------------------------------------------------------------
+
 
 class AdbTuiApp(App):
     TITLE = "ADB TUI"

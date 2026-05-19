@@ -24,6 +24,7 @@ class Action(Enum):
 # Internal helpers
 # ---------------------------------------------------------------------------
 
+
 def _run(*args: str) -> subprocess.CompletedProcess[str]:
     result = subprocess.run(["adb", *args], capture_output=True, text=True)
     if result.returncode != 0:
@@ -36,6 +37,7 @@ _IP_PATTERN = re.compile(r"^\d+\.\d+\.\d+\.\d+(:\d+)?$")
 # ---------------------------------------------------------------------------
 # Device queries
 # ---------------------------------------------------------------------------
+
 
 def get_devices() -> list[str]:
     result = _run("devices")
@@ -58,6 +60,7 @@ def format_device(device: str) -> str:
 # Package queries
 # ---------------------------------------------------------------------------
 
+
 def get_packages(device: str, partial: str) -> list[str]:
     result = _run("-s", device, "shell", "pm", "list", "packages")
     packages: list[str] = []
@@ -72,11 +75,18 @@ def get_packages(device: str, partial: str) -> list[str]:
 # Device actions
 # ---------------------------------------------------------------------------
 
+
 def launch_app(device: str, package: str) -> None:
     _run(
-        "-s", device, "shell", "monkey",
-        "-p", package,
-        "-c", "android.intent.category.LAUNCHER", "1",
+        "-s",
+        device,
+        "shell",
+        "monkey",
+        "-p",
+        package,
+        "-c",
+        "android.intent.category.LAUNCHER",
+        "1",
     )
 
 
